@@ -163,7 +163,7 @@ def generate_campaign_route():
     db.session.commit()
     
     try:
-        campaign_data = groq_helper.generate_campaign(niche, platform)
+        campaign_data = web_scraper.generate_campaign(niche, platform)
         
         if campaign_data:
             return jsonify({
@@ -293,10 +293,11 @@ def analyze_competitor():
     competitor_url = data.get('url', '').strip()
     niche = data.get('niche', '').strip()
     
-    if not competitor_url:
-        return jsonify({'success': False, 'message': 'Competitor URL is required'}), 400
+    if not niche:
+        return jsonify({'success': False, 'message': 'Niche is required'}), 400
     
-    result = web_scraper.analyze_competitor(competitor_url, niche)
+    # URL is optional - we analyze the niche itself for strategic insights
+    result = web_scraper.analyze_competitor(competitor_url or niche, niche)
     analysis = result.get('analysis', {})
     
     return jsonify({'success': True, 'analysis': analysis})
@@ -314,7 +315,7 @@ def generate_email_sequence():
     if not goal:
         return jsonify({'success': False, 'message': 'Campaign goal is required'}), 400
     
-    result = groq_helper.generate_email_sequence(goal, niche, num_emails)
+    result = web_scraper.generate_email_sequence(goal, niche, num_emails)
     sequence = result.get('sequence', {})
     
     return jsonify({'success': True, 'sequence': sequence})
@@ -330,7 +331,7 @@ def generate_heatmap():
     if not niche:
         return jsonify({'success': False, 'message': 'Niche is required'}), 400
     
-    result = groq_helper.get_traffic_heatmap_data(niche)
+    result = web_scraper.get_traffic_heatmap_data(niche)
     heatmap = result.get('heatmap', {})
     
     return jsonify({'success': True, 'heatmap': heatmap})
