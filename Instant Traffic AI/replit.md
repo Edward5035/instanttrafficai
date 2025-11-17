@@ -18,7 +18,24 @@ Instant Traffic AI is a comprehensive marketing automation tool with a modern Sa
 
 ## Recent Changes (November 17, 2025)
 
-### Latest Updates
+### Latest Updates (November 17, 2025 - Web Scraping Enhancement)
+- **Real Data Scraping Module**: Added `web_scraper.py` for pulling real data instead of templates
+  - Reddit API integration to find real communities with actual member counts
+  - Web scraping for trending content from multiple platforms
+  - Competitor website analysis extracting real SEO data, keywords, and meta information
+  - DuckDuckGo search integration for finding Facebook groups and articles
+  - Replaces template-based fake data with authentic information
+- **Caching System**: Added `cache_helper.py` for performance optimization
+  - 1-hour cache expiry for scraped data
+  - Prevents repeated API calls and reduces load times
+  - Automatic cache invalidation after expiry
+- **Enhanced Dependencies**: Added BeautifulSoup4 and lxml for web scraping
+- **Integration Complete**: Connected web scraper to all relevant endpoints
+  - Traffic Leak Finder now uses real Reddit communities and platform searches
+  - Viral Content Finder scrapes actual trending posts and articles
+  - Competitor Tracker analyzes real websites for SEO insights
+
+### Previous Updates
 - **Gemini API Integration**: Configured GEMINI_API_KEY securely in environment secrets
 - **Upgraded to Gemini 2.5 Flash**: Updated from gemini-2.0-flash to the latest stable gemini-2.5-flash model
   - Better reasoning capabilities
@@ -69,6 +86,7 @@ Instant Traffic AI is a comprehensive marketing automation tool with a modern Sa
 ### Tech Stack
 - **Backend**: Python 3.11, Flask, Flask-SQLAlchemy, Flask-WTF (CSRF protection)
 - **AI/ML**: Google Gemini 2.5 Flash (latest stable model)
+- **Web Scraping**: BeautifulSoup4, lxml, requests (real data extraction from Reddit, web search)
 - **Frontend**: HTML, CSS, Vanilla JavaScript (AJAX)
 - **Database**: SQLite
 - **Security**: 
@@ -81,13 +99,18 @@ Instant Traffic AI is a comprehensive marketing automation tool with a modern Sa
 ```
 .
 ├── app.py                 # Main Flask application with models and routes
+├── web_scraper.py         # Web scraping module for real data extraction
+├── cache_helper.py        # Caching system for performance optimization
+├── template_generator.py  # Fallback template generator
 ├── templates/
 │   ├── login.html        # Login page with secure auto-registration
 │   └── dashboard.html    # Modern SaaS dashboard with sidebar & 10 features
 ├── static/
 │   ├── style.css         # Modern SaaS styling with warm colors
 │   └── script.js         # AJAX functionality & navigation
-├── traffic_ai.db         # SQLite database (auto-created)
+├── cache/                # Cache directory for scraped data (auto-created)
+├── instance/
+│   └── traffic_ai.db     # SQLite database (auto-created)
 └── replit.md             # This file
 ```
 

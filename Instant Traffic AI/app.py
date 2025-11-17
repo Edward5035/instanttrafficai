@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import secrets
 import os
 import template_generator as groq_helper
+import web_scraper
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SESSION_SECRET', secrets.token_hex(16))
@@ -202,7 +203,7 @@ def find_traffic_leaks():
     if not niche:
         return jsonify({'success': False, 'message': 'Niche is required'}), 400
     
-    result = groq_helper.find_traffic_leaks(niche, competitor_url if competitor_url else None)
+    result = web_scraper.find_real_traffic_leaks(niche, competitor_url if competitor_url else None)
     leaks = result.get('leaks', [])
     
     for leak in leaks:
@@ -278,7 +279,7 @@ def find_viral_content():
     if not niche:
         return jsonify({'success': False, 'message': 'Niche is required'}), 400
     
-    result = groq_helper.find_viral_content(niche)
+    result = web_scraper.find_viral_content(niche)
     trending = result.get('trending', [])
     
     return jsonify({'success': True, 'trending': trending})
@@ -295,7 +296,7 @@ def analyze_competitor():
     if not competitor_url:
         return jsonify({'success': False, 'message': 'Competitor URL is required'}), 400
     
-    result = groq_helper.analyze_competitor(competitor_url, niche)
+    result = web_scraper.analyze_competitor(competitor_url, niche)
     analysis = result.get('analysis', {})
     
     return jsonify({'success': True, 'analysis': analysis})
