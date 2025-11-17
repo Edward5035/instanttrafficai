@@ -5,8 +5,8 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 import secrets
 import os
-import template_generator as groq_helper
-import web_scraper
+# # import template_generator as groq_helper
+from . import web_scraper
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SESSION_SECRET', secrets.token_hex(16))
@@ -138,7 +138,7 @@ def get_campaigns():
         } for c in campaigns
     ]})
 
-@app.route('/api/campaigns/generate', methods=['POST'])
+# @app.route('/api/campaigns/generate', methods=['POST'])
 def generate_campaign_route():
     if 'user_id' not in session:
         return jsonify({'success': False, 'message': 'Not authenticated'}), 401
@@ -191,7 +191,7 @@ def generate_campaign_route():
         else:
             return jsonify({'success': False, 'message': f'Error generating campaign. Please try again.'}), 500
 
-@app.route('/api/traffic-leaks/find', methods=['POST'])
+# @app.route('/api/traffic-leaks/find', methods=['POST'])
 def find_traffic_leaks():
     if 'user_id' not in session:
         return jsonify({'success': False, 'message': 'Not authenticated'}), 401
@@ -249,6 +249,124 @@ def get_heatmap_data():
     
     return jsonify({'success': True, 'heatmap': heatmap_data})
 
+
+# --- New Feature API Endpoints ---
+
+@app.route('/api/features/trend-caster', methods=['POST'])
+def trend_caster():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    data = request.get_json()
+    keyword = data.get('keyword', '').strip()
+    if not keyword:
+        return jsonify({'success': False, 'message': 'Keyword is required'}), 400
+    
+    result = web_scraper.trend_caster_ai(keyword)
+    return jsonify({'success': True, 'data': result})
+
+@app.route('/api/features/niche-scanner', methods=['POST'])
+def niche_scanner():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    data = request.get_json()
+    hashtag = data.get('hashtag', '').strip()
+    if not hashtag:
+        return jsonify({'success': False, 'message': 'Hashtag is required'}), 400
+    
+    result = web_scraper.niche_scanner(hashtag)
+    return jsonify({'success': True, 'data': result})
+
+@app.route('/api/features/viral-vortex', methods=['POST'])
+def viral_vortex():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    data = request.get_json()
+    keyword = data.get('keyword', '').strip()
+    if not keyword:
+        return jsonify({'success': False, 'message': 'Keyword is required'}), 400
+    
+    result = web_scraper.viral_vortex(keyword)
+    return jsonify({'success': True, 'data': result})
+
+@app.route('/api/features/competitor-cloner', methods=['POST'])
+def competitor_cloner():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    data = request.get_json()
+    username = data.get('username', '').strip()
+    if not username:
+        return jsonify({'success': False, 'message': 'Username is required'}), 400
+    
+    result = web_scraper.competitor_cloner(username)
+    return jsonify({'success': True, 'data': result})
+
+@app.route('/api/features/hashtag-matrix', methods=['POST'])
+def hashtag_matrix():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    data = request.get_json()
+    keyword = data.get('keyword', '').strip()
+    if not keyword:
+        return jsonify({'success': False, 'message': 'Keyword is required'}), 400
+    
+    result = web_scraper.hashtag_matrix(keyword)
+    return jsonify({'success': True, 'data': result})
+
+@app.route('/api/features/content-spark', methods=['POST'])
+def content_spark():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    keyword = data.get('keyword', '').strip()
+    if not keyword:
+        return jsonify({'success': False, 'message': 'Keyword is required'}), 400
+    
+    result = web_scraper.content_spark(keyword)
+    return jsonify({'success': True, 'data': result})
+
+@app.route('/api/features/authority-architect', methods=['POST'])
+def authority_architect():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    data = request.get_json()
+    keyword = data.get('keyword', '').strip()
+    if not keyword:
+        return jsonify({'success': False, 'message': 'Keyword is required'}), 400
+    
+    result = web_scraper.authority_architect(keyword)
+    return jsonify({'success': True, 'data': result})
+
+@app.route('/api/features/influencer-radar', methods=['POST'])
+def influencer_radar():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    data = request.get_json()
+    keyword = data.get('keyword', '').strip()
+    if not keyword:
+        return jsonify({'success': False, 'message': 'Keyword is required'}), 400
+    
+    result = web_scraper.influencer_radar(keyword)
+    return jsonify({'success': True, 'data': result})
+
+@app.route('/api/features/traffic-loom', methods=['POST'])
+def traffic_loom():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    data = request.get_json()
+    keyword = data.get('keyword', '').strip()
+    if not keyword:
+        return jsonify({'success': False, 'message': 'Keyword is required'}), 400
+    
+    result = web_scraper.traffic_loom(keyword)
+    return jsonify({'success': True, 'data': result})
+
+@app.route('/api/features/trend-trigger', methods=['GET'])
+def trend_trigger():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not authenticated'}), 401
+    
+    result = web_scraper.trend_trigger()
+    return jsonify({'success': True, 'data': result})
+
 @app.route('/api/analytics/stats', methods=['GET'])
 def get_stats():
     if 'user_id' not in session:
@@ -268,7 +386,7 @@ def get_stats():
         }
     })
 
-@app.route('/api/viral-content/find', methods=['POST'])
+# @app.route('/api/viral-content/find', methods=['POST'])
 def find_viral_content():
     if 'user_id' not in session:
         return jsonify({'success': False, 'message': 'Not authenticated'}), 401
@@ -284,7 +402,7 @@ def find_viral_content():
     
     return jsonify({'success': True, 'trending': trending})
 
-@app.route('/api/competitor/analyze', methods=['POST'])
+# @app.route('/api/competitor/analyze', methods=['POST'])
 def analyze_competitor():
     if 'user_id' not in session:
         return jsonify({'success': False, 'message': 'Not authenticated'}), 401
@@ -302,7 +420,7 @@ def analyze_competitor():
     
     return jsonify({'success': True, 'analysis': analysis})
 
-@app.route('/api/email/generate', methods=['POST'])
+# @app.route('/api/email/generate', methods=['POST'])
 def generate_email_sequence():
     if 'user_id' not in session:
         return jsonify({'success': False, 'message': 'Not authenticated'}), 401
@@ -320,7 +438,7 @@ def generate_email_sequence():
     
     return jsonify({'success': True, 'sequence': sequence})
 
-@app.route('/api/heatmap/generate', methods=['POST'])
+# @app.route('/api/heatmap/generate', methods=['POST'])
 def generate_heatmap():
     if 'user_id' not in session:
         return jsonify({'success': False, 'message': 'Not authenticated'}), 401
