@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Instant Traffic AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="60" height="60" rx="16" fill="#FF6B35"/>
+                        <path d="M30 15L42 25L30 35L30 29L18 29L18 21L30 21L30 15Z" fill="white"/>
+                        <path d="M26 37L30 45L34 37" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1>Instant Traffic AI</h1>
+                <p class="tagline">Your Complete Traffic Generation System</p>
+            </div>
+            
+            <div class="value-message">
+                <div class="value-icon">💎</div>
+                <div class="value-content">
+                    <strong>Lifetime Access</strong>
+                    <span>Generate unlimited campaigns • No monthly fees</span>
+                </div>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Username
+                    </label>
+                    <input type="text" id="loginUsername" name="username" placeholder="Enter your username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                        Password
+                    </label>
+                    <input type="password" id="loginPassword" name="password" placeholder="Enter your password (min 6 characters)" required minlength="6" autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn-primary btn-large">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/>
+                    </svg>
+                    Access Dashboard
+                </button>
+            </form>
+            
+            <div class="auto-register-notice">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                New user? No problem! We'll create your account automatically when you login.
+            </div>
+            <div id="message" class="message"></div>
+        </div>
+        
+        <div class="login-features">
+            <div class="feature-item">
+                <div class="feature-check">✓</div>
+                <span>60-Second Campaign Generator</span>
+            </div>
+            <div class="feature-item">
+                <div class="feature-check">✓</div>
+                <span>10+ Traffic Generation Tools</span>
+            </div>
+            <div class="feature-item">
+                <div class="feature-check">✓</div>
+                <span>Unlimited Campaign Creation</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageDiv = document.getElementById('message');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spinner"><circle cx="12" cy="12" r="10"></circle><path d="M12 2 A10 10 0 0 1 22 12"></path></svg> Logging in...';
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    messageDiv.className = 'message success';
+                    messageDiv.textContent = data.message;
+                    if (data.user && data.user.name) {
+                        sessionStorage.setItem('user_name', data.user.name);
+                    }
+                    if (data.user && data.user.username) {
+                        sessionStorage.setItem('username', data.user.username);
+                    }
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 500);
+                } else {
+                    messageDiv.className = 'message error';
+                    messageDiv.textContent = data.message;
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg> Access Dashboard';
+                }
+            } catch (error) {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = 'An error occurred. Please try again.';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg> Access Dashboard';
+            }
+        });
+    </script>
+</body>
+</html>

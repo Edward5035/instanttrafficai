@@ -1,0 +1,596 @@
+import random
+from datetime import datetime, timedelta
+
+# Massive variety pools for realistic content generation
+BLOG_TITLE_TEMPLATES = [
+    "{number} {power_word} {niche_title} {action} That {result} in {year}",
+    "The {adjective} {niche_title} Guide Every {audience} Needs to Read",
+    "How I {achievement} My {niche_title} {metric} in Just {timeframe}",
+    "{niche_title} {comparison}: What Nobody Tells You",
+    "Stop {mistake}! Here's What Actually Works for {niche_title}",
+    "The Science Behind {niche_title}: {number} Proven {element}",
+    "{question} About {niche_title}? Here's the Data-Driven Answer",
+    "I Tested {number} {niche_title} {method} So You Don't Have To",
+    "{niche_title} on {platform_name}: The {year} Playbook",
+    "From ${start_amount} to ${end_amount}: My {niche_title} Journey"
+]
+
+POWER_WORDS = ["Proven", "Secret", "Hidden", "Advanced", "Essential", "Powerful", "Game-Changing", "Revolutionary"]
+ACTIONS = ["Strategies", "Techniques", "Methods", "Tactics", "Hacks", "Tricks", "Approaches", "Formulas"]
+RESULTS = ["Actually Work", "Deliver Results", "Changed Everything", "Triple Your ROI", "Get Real Results"]
+ADJECTIVES = ["Ultimate", "Complete", "Definitive", "Comprehensive", "Step-by-Step", "Beginner-Friendly"]
+AUDIENCES = ["Entrepreneur", "Marketer", "Business Owner", "Professional", "Creator", "Freelancer"]
+ACHIEVEMENTS = ["Tripled", "Doubled", "10x'd", "Transformed", "Skyrocketed", "Revolutionized"]
+METRICS = ["Revenue", "Traffic", "Conversions", "Engagement", "ROI", "Growth"]
+TIMEFRAMES = ["30 Days", "90 Days", "6 Months", "One Year", "3 Months", "12 Weeks"]
+
+SOCIAL_OPENERS_FB = [
+    "🔥 Hot take:", "💡 Quick insight:", "⚡ Pro tip:", "🎯 Real talk:", "✨ Just discovered:",
+    "🚀 Success story:", "💪 Brutal truth:", "🌟 Game changer:", "🔑 The secret?", "📈 Data shows:"
+]
+
+SOCIAL_OPENERS_TW = [
+    "Thread 🧵:", "Data from 1000+ campaigns:", "Unpopular opinion:", "After analyzing {X}:",
+    "The {niche} playbook nobody shares:", "Stop doing this:", "Hot take:", "Real talk:"
+]
+
+SOCIAL_OPENERS_LI = [
+    "After {X} years in {niche}...", "Industry insight:", "Case study:", "Lessons from {X}:",
+    "The data doesn't lie:", "Transformation story:", "Strategic deep dive:", "Why most {niche} fails:"
+]
+
+def generate_campaign(niche, platform='all'):
+    """Generate ultra-realistic marketing campaign - feels AI-generated, not templated"""
+    
+    niche_title = niche.title()
+    niche_lower = niche.lower()
+    current_year = datetime.now().year
+    
+    platform_focus = {
+        'facebook': 'Facebook', 'instagram': 'Instagram', 'twitter': 'Twitter/X',
+        'linkedin': 'LinkedIn', 'youtube': 'YouTube', 'pinterest': 'Pinterest',
+        'tiktok': 'TikTok', 'reddit': 'Reddit', 'all': 'All Platforms'
+    }
+    platform_name = platform_focus.get(platform.lower(), 'All Platforms')
+    
+    # Generate 10 unique blog posts with massive variety
+    blog_posts = []
+    used_templates = []
+    
+    for i in range(10):
+        template = random.choice([t for t in BLOG_TITLE_TEMPLATES if t not in used_templates])
+        used_templates.append(template)
+        
+        title = template.format(
+            number=random.choice([str(random.randint(3, 15)), "A Few", "Several"]),
+            power_word=random.choice(POWER_WORDS),
+            niche_title=niche_title,
+            action=random.choice(ACTIONS),
+            result=random.choice(RESULTS),
+            year=current_year,
+            adjective=random.choice(ADJECTIVES),
+            audience=random.choice(AUDIENCES),
+            achievement=random.choice(ACHIEVEMENTS),
+            metric=random.choice(METRICS),
+            timeframe=random.choice(TIMEFRAMES),
+            comparison=random.choice([f"{niche_title} vs. Traditional Methods", f"Old School vs. Modern {niche_title}"]),
+            mistake=random.choice([f"Wasting Money on {niche_title}", f"Making These {niche_title} Mistakes"]),
+            element=random.choice(["Insights", "Findings", "Discoveries", "Research Results"]),
+            question=random.choice(["Struggling with", "Confused about", "New to", "Failing at"]),
+            method=random.choice(["Tools", "Strategies", "Platforms", "Approaches", "Services"]),
+            platform_name=platform_name,
+            start_amount=random.choice(["0", "100", "500", "1K"]),
+            end_amount=random.choice(["10K", "50K", "100K", "500K", "1M"])
+        )
+        
+        # Generate realistic keywords
+        keyword_variations = [
+            niche_lower,
+            f"{niche_lower} {random.choice(['tips', 'guide', 'strategies', 'tutorial', 'course'])}",
+            f"best {niche_lower}",
+            f"{niche_lower} for {random.choice(['beginners', 'professionals', 'businesses', 'startups'])}",
+            f"how to {niche_lower}"
+        ]
+        
+        # Generate varied H2 sections
+        h2_options = [
+            f"Why {niche_title} is {random.choice(['Crucial', 'Essential', 'Critical'])} in {current_year}",
+            f"The {random.choice(['Top', 'Biggest', 'Most Common'])} {niche_title} Mistakes to Avoid",
+            f"{random.choice(['Advanced', 'Pro-Level', 'Expert'])} {niche_title} Techniques",
+            f"Measuring Your {niche_title} {random.choice(['Success', 'ROI', 'Impact', 'Results'])}",
+            f"Getting Started: Your {niche_title} {random.choice(['Roadmap', 'Blueprint', 'Action Plan'])}",
+            f"{niche_title} Tools and {random.choice(['Resources', 'Platforms', 'Software'])}",
+            f"Case Study: Real {niche_title} Transformation",
+            f"The Future of {niche_title}: Trends for {current_year + 1}",
+            f"{niche_title} on a Budget: Cost-Effective Strategies",
+            f"Scaling Your {niche_title} {random.choice(['Efforts', 'Results', 'Campaigns'])}"
+        ]
+        
+        blog_posts.append({
+            "title": title,
+            "keywords": ", ".join(random.sample(keyword_variations, min(4, len(keyword_variations)))),
+            "h2_sections": random.sample(h2_options, 4)
+        })
+    
+    # Generate ultra-realistic social media posts
+    all_social_posts = {
+        "facebook": _generate_facebook_posts(niche, niche_title, niche_lower, platform_name),
+        "twitter": _generate_twitter_posts(niche, niche_title, niche_lower),
+        "linkedin": _generate_linkedin_posts(niche, niche_title, niche_lower)
+    }
+    
+    if platform.lower() in ['facebook', 'instagram', 'twitter', 'linkedin']:
+        platform_key = 'twitter' if platform.lower() in ['twitter', 'x'] else platform.lower()
+        if platform_key in all_social_posts:
+            selected_posts = all_social_posts[platform_key] * 3
+            social_posts = {platform_key: selected_posts[:30]}
+        else:
+            social_posts = all_social_posts
+    else:
+        social_posts = all_social_posts
+    
+    # Generate realistic email sequences
+    email_sequences = _generate_email_sequences(niche, niche_title)
+    
+    # Generate landing pages
+    landing_pages = [
+        {
+            "name": "Lead Magnet",
+            "headline": f"{random.choice(['Download', 'Get', 'Claim'])} Your Free {niche_title} {random.choice(['Toolkit', 'Checklist', 'Blueprint', 'Guide'])}",
+            "subheadline": f"{random.choice(['Everything', 'All the tools', 'The complete system'])} you need to {random.choice(['start succeeding', 'get results', 'transform your results'])} with {niche_lower} today",
+            "cta": f"{random.choice(['Download', 'Get', 'Access'])} Free {random.choice(['Toolkit', 'Resource', 'Guide'])}"
+        },
+        {
+            "name": "Sales Page",
+            "headline": f"Master {niche_title} in {random.choice(['30', '60', '90'])} Days or Get Your Money Back",
+            "subheadline": f"Join {random.choice(['10,000+', '50,000+', '100,000+'])} students who transformed their {niche_lower} results",
+            "cta": f"Enroll Now - {random.choice(['Limited Time Offer', 'Special Discount', '50% Off'])}"}
+,
+        {
+            "name": "Webinar Registration",
+            "headline": f"Free {random.choice(['Workshop', 'Masterclass', 'Training'])}: The {niche_title} {random.choice(['Blueprint', 'Playbook', 'System'])} for {current_year}",
+            "subheadline": f"Learn the exact {random.choice(['system', 'strategy', 'framework'])} {random.choice(['I', 'we'])} used to achieve {niche_lower} success",
+            "cta": f"{random.choice(['Save My Spot', 'Register Now', 'Join Free Webinar'])}"
+        }
+    ]
+    
+    # Generate realistic keywords with varied data
+    keywords = []
+    volume_ranges = ["100-1K", "1K-10K", "10K-100K", "100K-1M"]
+    competition_levels = ["Low", "Medium", "High"]
+    trends = ["Rising", "Stable", "Declining", "Seasonal"]
+    
+    keyword_base = [
+        niche_lower, f"{niche_lower} tips", f"{niche_lower} for beginners", f"best {niche_lower}",
+        f"{niche_lower} guide", f"how to {niche_lower}", f"{niche_lower} strategies", f"{niche_lower} tutorial",
+        f"{niche_lower} course", f"learn {niche_lower}", f"{niche_lower} examples", f"{niche_lower} tools",
+        f"{niche_lower} software", f"{niche_lower} success", f"{niche_lower} {current_year}",
+        f"free {niche_lower}", f"{niche_lower} checklist", f"{niche_lower} mistakes",
+        f"{niche_lower} ROI", f"{niche_lower} training"
+    ]
+    
+    for kw in keyword_base:
+        keywords.append({
+            "keyword": kw,
+            "volume": random.choice(volume_ranges),
+            "competition": random.choice(competition_levels),
+            "trend": random.choice(trends)
+        })
+    
+    return {
+        "blog_posts": blog_posts,
+        "social_posts": social_posts,
+        "email_sequences": email_sequences,
+        "landing_pages": landing_pages,
+        "keywords": keywords
+    }
+
+
+def _generate_facebook_posts(niche, niche_title, niche_lower, platform_name):
+    """Generate realistic Facebook posts with variety"""
+    posts = []
+    emojis = ["🔥", "💡", "⚡", "🎯", "✨", "🚀", "💪", "🌟", "🔑", "📈", "🎉", "💰", "🏆", "🔮", "⭐"]
+    
+    for _ in range(10):
+        opener = random.choice(SOCIAL_OPENERS_FB)
+        content_types = [
+            f"Want to {random.choice(['dominate', 'master', 'crush it in'])} {niche_lower}? Here's what {random.choice(['nobody tells you', 'actually works', 'the pros do'])}...",
+            f"Just {random.choice(['discovered', 'tested', 'tried'])} this {niche_lower} {random.choice(['hack', 'strategy', 'method'])}. {random.choice(['Results', 'ROI', 'Growth'])} went up {random.randint(50, 300)}%!",
+            f"Your {niche_lower} results aren't what you expected? {random.choice(['Here is why', 'The reason', 'I explain why'])}...",
+            f"The future of {niche_lower} is {random.choice(['here', 'changing', 'evolving fast'])}. Are you {random.choice(['ready', 'prepared', 'keeping up'])}?",
+            f"From {random.choice(['struggling', 'zero', 'beginner'])} to {random.choice(['expert', 'success', 'results'])}: My {niche_lower} journey in {random.choice(['30', '60', '90'])} days",
+            f"These {niche_lower} mistakes cost me ${random.choice(['5K', '10K', '50K', '100K'])}. Don't make them!",
+            f"{random.choice(['The ultimate', 'My complete', 'A comprehensive'])} {niche_lower} guide {random.choice(['is finally here', 'just dropped', 'you have been waiting for'])}!",
+            f"{random.choice(['Unlock', 'Discover', 'Master'])} your {niche_lower} potential with these {random.randint(3, 7)} proven strategies",
+            f"Real {niche_lower} results: See what's possible when you {random.choice(['do it right', 'follow the system', 'use the right strategy'])}!",
+            f"{random.choice(['Struggling with', 'Confused about', 'Want to improve'])} {niche_lower}? Try this {random.choice(['simple', 'powerful', 'game-changing'])} approach"
+        ]
+        
+        post = f"{random.choice(emojis)} {opener} {random.choice(content_types)}"
+        hashtag = f"#{niche.replace(' ', '')}{random.choice(['Tips', 'Success', 'Guide', 'Strategy', current_year])}"
+        posts.append(f"{post} {hashtag}")
+    
+    return posts
+
+
+def _generate_twitter_posts(niche, niche_title, niche_lower):
+    """Generate realistic Twitter/X posts"""
+    posts = []
+    
+    for _ in range(10):
+        post_types = [
+            f"{random.choice(SOCIAL_OPENERS_TW).replace('{X}', str(random.randint(50, 500)))} {niche_title} tip: {random.choice(['Focus on quality over quantity', 'Consistency beats perfection', 'Start before you are ready'])}. Always.",
+            f"Your {niche_lower} strategy should {random.choice(['adapt', 'evolve', 'change'])} every {random.choice(['quarter', 'month', '6 months'])}. Don't set and forget.",
+            f"Hot take: Most {niche_lower} advice is {random.choice(['outdated', 'wrong', 'incomplete'])}. Here's what actually works in {datetime.now().year}... 🧵",
+            f"The {random.randint(3, 5)} pillars of successful {niche_lower}: {random.choice(['Strategy', 'Planning'])}, {random.choice(['Execution', 'Implementation'])}, {random.choice(['Measurement', 'Analytics'])}. Master these.",
+            f"Stop {random.choice(['copying competitors', 'following trends blindly', 'doing what everyone else does'])}. Start innovating in {niche_lower}.",
+            f"Just analyzed {random.randint(50, 500)} {niche_lower} campaigns. Here's what winners do differently...",
+            f"Your {niche_lower} ROI will thank you for this thread. Bookmark it. 🔖",
+            f"The {niche_lower} landscape {random.choice(['changed', 'shifted', 'evolved'])}. Here's how to adapt and win.",
+            f"Myth: {niche_title} is {random.choice(['expensive', 'complicated', 'time-consuming'])}. Reality: It's an investment that pays off.",
+            f"New to {niche_lower}? Start here. This is the only roadmap you need."
+        ]
+        
+        posts.append(random.choice(post_types))
+    
+    return posts
+
+
+def _generate_linkedin_posts(niche, niche_title, niche_lower):
+    """Generate realistic LinkedIn posts"""
+    posts = []
+    
+    for _ in range(10):
+        post_types = [
+            f"{random.choice(SOCIAL_OPENERS_LI).replace('{X}', str(random.randint(3, 15))).replace('{niche}', niche_lower)} here are the {random.randint(3, 7)} lessons that transformed my approach... #{niche.replace(' ', '')} #ProfessionalDevelopment",
+            f"The data is clear: Companies investing in {niche_lower} see {random.randint(2, 5)}x better results. Here's the breakdown... #{niche.replace(' ', '')} #BusinessGrowth",
+            f"Industry insight: The {niche_lower} market is {random.choice(['shifting', 'evolving', 'transforming'])}. Are you prepared? #{niche.replace(' ', '')} #Leadership",
+            f"How we increased our {niche_lower} ROI by {random.randint(100, 500)}% in {random.choice(['3', '6', '12'])} months. Full case study in comments. #{niche.replace(' ', '')} #Results",
+            f"The future of {niche_lower} is {random.choice(['collaborative', 'data-driven', 'AI-powered'])}, not {random.choice(['competitive', 'guesswork-based', 'manual'])}. Here's why... #{niche.replace(' ', '')} #Innovation",
+            f"{random.randint(3, 7)} {niche_lower} metrics every {random.choice(['executive', 'leader', 'manager'])} should track in {datetime.now().year}. #{niche.replace(' ', '')} #Analytics",
+            f"Lessons from leading {niche_lower} transformations across {random.choice(['Fortune 500', 'top', 'leading'])} companies. #{niche.replace(' ', '')} #Strategy",
+            f"Why traditional {niche_lower} approaches are failing, and what to do instead. #{niche.replace(' ', '')} #ChangeManagement",
+            f"The ROI conversation around {niche_lower} needs to change. Here's my perspective... #{niche.replace(' ', '')} #BusinessValue",
+            f"Building a world-class {niche_lower} team: What we learned the hard way. #{niche.replace(' ', '')} #TeamBuilding"
+        ]
+        
+        posts.append(random.choice(post_types))
+    
+    return posts
+
+
+def _generate_email_sequences(niche, niche_title):
+    """Generate realistic email sequences"""
+    
+    names_pool = ["Sarah", "John", "Mike", "Emily", "David", "Lisa", "Tom", "Jessica", "Chris", "Amanda"]
+    
+    sequences = [
+        {
+            "name": "Lead Generation",
+            "goal": "Convert visitors into qualified leads",
+            "emails": [
+                {
+                    "subject": f"The {niche_title} {random.choice(['Secret', 'Strategy', 'Hack'])} Nobody Talks About",
+                    "preview": f"Discover the overlooked {niche.lower()} {random.choice(['strategy', 'tactic', 'method'])} that's changing everything..."
+                },
+                {
+                    "subject": f"Your Free {niche_title} {random.choice(['Starter Kit', 'Toolkit', 'Blueprint'])} is Ready",
+                    "preview": f"Everything you need to start succeeding with {niche.lower()} today"
+                },
+                {
+                    "subject": f"{random.choice(['Quick question', 'Curious'])} about your {random.choice(['goals', 'challenges', 'results'])}...",
+                    "preview": f"I'd love to help you with your {niche.lower()} journey"
+                },
+                {
+                    "subject": f"[Case Study] How {random.choice(names_pool)} {random.choice(['tripled', 'doubled', '10x'd'])} {random.choice(['her', 'his'])} {niche_title} results",
+                    "preview": f"Real results from someone just like you"
+                },
+                {
+                    "subject": f"{random.choice(['Last chance', 'Final call', 'Closing soon'])} to claim your spot",
+                    "preview": f"Limited seats available for our exclusive {niche.lower()} workshop"
+                }
+            ]
+        },
+        {
+            "name": "Sales",
+            "goal": "Convert leads into paying customers",
+            "emails": [
+                {
+                    "subject": f"Why {niche_title} isn't working for you (yet)",
+                    "preview": f"The missing piece in your {niche.lower()} strategy"
+                },
+                {
+                    "subject": f"{random.choice(['Special offer', 'Limited time', 'Exclusive deal'])}: {niche_title} {random.choice(['Mastery Program', 'Bootcamp', 'Academy'])}",
+                    "preview": f"{random.choice(['40%', '50%', '60%'])} off for the next {random.choice(['24', '48', '72'])} hours only"
+                },
+                {
+                    "subject": f"What our {random.choice(['students', 'clients', 'members'])} are saying...",
+                    "preview": f"Real {niche.lower()} transformations from people like you"
+                },
+                {
+                    "subject": f"{random.choice(['Still on the fence', 'Not sure yet', 'Have questions'])}? Read this.",
+                    "preview": f"Your {niche.lower()} questions answered"
+                },
+                {
+                    "subject": f"Final call: Offer expires {random.choice(['tonight', 'in 24 hours', 'soon'])}",
+                    "preview": "Last chance to join at this special price"
+                }
+            ]
+        },
+        # 3 more sequences...
+        {
+            "name": "Nurture",
+            "goal": "Build trust and provide value",
+            "emails": [
+                {"subject": f"Your weekly {niche_title} tip", "preview": f"This week: How to {random.choice(['maximize results', 'save time', 'increase ROI'])} with {niche.lower()}"},
+                {"subject": f"New {niche.lower()} resource just for you", "preview": "A free guide to help you get better results"},
+                {"subject": f"Success story: Meet {random.choice(names_pool)}", "preview": f"How {random.choice(names_pool)} went from struggling to thriving"},
+                {"subject": f"Common {niche_title} mistakes to avoid", "preview": "Don't make these costly errors"},
+                {"subject": "Your feedback matters", "preview": f"Help us help you with {niche.lower()}"}
+            ]
+        },
+        {
+            "name": "Webinar",
+            "goal": "Drive webinar registrations and attendance",
+            "emails": [
+                {"subject": f"[Live Workshop] Master {niche_title} in {random.choice(['60', '90'])} Minutes", "preview": f"Free training {random.choice(['this Thursday at 2 PM EST', 'next Tuesday at 3 PM EST', 'this week'])}"},
+                {"subject": f"Reminder: Webinar starts in {random.choice(['24', '48'])} hours", "preview": "Your seat is reserved, don't miss out!"},
+                {"subject": f"Starting in {random.choice(['2', '1'])} hour{'s' if random.choice([True, False]) else ''}!", "preview": "Join link inside - see you soon!"},
+                {"subject": "You missed it! (Here's the replay)", "preview": "Watch the full workshop recording here"},
+                {"subject": "Special offer from the webinar", "preview": "Exclusive deal for attendees only"}
+            ]
+        },
+        {
+            "name": "Re-engagement",
+            "goal": "Win back inactive subscribers",
+            "emails": [
+                {"subject": f"We miss you!", "preview": f"It's been a while since we connected about {niche.lower()}"},
+                {"subject": f"What's new in {niche_title}", "preview": f"{random.choice(['Major', 'Big', 'Exciting'])} updates you should know about"},
+                {"subject": "Can we help with anything?", "preview": f"Let us know what you're struggling with in {niche.lower()}"},
+                {"subject": f"{random.choice(['Last email', 'Final message'])} from us", "preview": "Should we keep sending you updates?"},
+                {"subject": "You're back! Here's what you missed", "preview": f"Welcome back to the {niche.lower()} community"}
+            ]
+        }
+    ]
+    
+    return sequences
+
+
+def find_traffic_leaks(niche, competitor_url=None):
+    """Find traffic sources - ultra-realistic data"""
+    
+    platforms_pool = [
+        {"name": "Facebook", "types": ["Group", "Page", "Community"]},
+        {"name": "Reddit", "types": ["Subreddit"]},
+        {"name": "LinkedIn", "types": ["Group", "Community"]},
+        {"name": "YouTube", "types": ["Channel", "Community"]},
+        {"name": "Pinterest", "types": ["Board", "Community"]},
+        {"name": "Twitter", "types": ["Community", "List"]},
+        {"name": "Quora", "types": ["Space", "Topic"]},
+        {"name": "Instagram", "types": ["Community", "Page"]},
+        {"name": "TikTok", "types": ["Community", "Creator Group"]},
+        {"name": "Discord", "types": ["Server", "Community"]},
+        {"name": "Slack", "types": ["Community", "Workspace"]},
+        {"name": "Telegram", "types": ["Group", "Channel"]}
+    ]
+    
+    random.shuffle(platforms_pool)
+    
+    leaks = []
+    for platform_data in platforms_pool[:8]:
+        platform = platform_data["name"]
+        ptype = random.choice(platform_data["types"])
+        
+        # Generate realistic member counts
+        member_ranges = [
+            (500, 5000, "500-5K"),
+            (5000, 50000, "5K-50K"),
+            (50000, 100000, "50K-100K"),
+            (100000, 500000, "100K-500K"),
+            (500000, 1000000, "500K-1M")
+        ]
+        min_val, max_val, display = random.choice(member_ranges)
+        member_count = random.randint(min_val, max_val)
+        
+        engagement_score = random.randint(1, 100)
+        if engagement_score >= 70:
+            engagement = "High"
+        elif engagement_score >= 40:
+            engagement = "Medium"
+        else:
+            engagement = "Low"
+        
+        # Generate realistic source names
+        if platform == "Reddit":
+            source_name = f"r/{niche.replace(' ', '')}{random.choice(['', 'Pro', 'Tips', 'Community', 'Hub'])}"
+        else:
+            adjectives = ["Ultimate", "Official", "Pro", "Expert", "Premium", "Elite", ""]
+            source_name = f"{random.choice(adjectives)} {niche.title()} {ptype}".strip()
+        
+        opportunities = [
+            f"Active {niche.lower()} discussions with {engagement.lower()} engagement rate",
+            f"Growing community with {random.randint(50, 500)}+ monthly posts",
+            f"Highly engaged audience seeking {niche.lower()} solutions",
+            f"Opportunity for thought leadership and brand building",
+            f"Direct access to {display} potential customers",
+            f"Low competition for quality content contributions"
+        ]
+        
+        leaks.append({
+            "platform": platform,
+            "source": source_name,
+            "members": display,
+            "engagement": engagement,
+            "opportunity": random.choice(opportunities)
+        })
+    
+    return {"leaks": leaks}
+
+
+def find_viral_content(niche):
+    """Find trending content - ultra-realistic viral content"""
+    
+    content_types = [
+        ("Article", ["Medium", "Substack", "Personal Blog"]),
+        ("Video", ["YouTube", "TikTok", "Instagram Reels"]),
+        ("Infographic", ["Pinterest", "LinkedIn", "Instagram"]),
+        ("Thread", ["Twitter", "LinkedIn"]),
+        ("Podcast Episode", ["Spotify", "Apple Podcasts"])
+    ]
+    
+    trending = []
+    for i in range(10):
+        content_type, platforms = random.choice(content_types)
+        platform = random.choice(platforms)
+        
+        # Generate realistic engagement numbers
+        if platform in ["TikTok", "Instagram Reels", "YouTube"]:
+            base = random.randint(10000, 1000000)
+            metric = "views"
+        elif platform == "Twitter":
+            base = random.randint(500, 50000)
+            metric = "retweets"
+        else:
+            base = random.randint(100, 10000)
+            metric = "shares"
+        
+        engagement_display = f"{base:,} {metric}"
+        
+        # Realistic title variations
+        title_templates = [
+            f"How to {random.choice(['Master', 'Excel at', 'Succeed in'])} {niche.title()}",
+            f"{random.randint(5, 15)} {niche.title()} {random.choice(['Hacks', 'Tips', 'Secrets'])} That Actually Work",
+            f"The Ultimate {niche.title()} Guide for {datetime.now().year}",
+            f"Why Everyone is Talking About {niche.title()} Right Now",
+            f"I {random.choice(['Tried', 'Tested', 'Spent'])} {random.choice(['30', '60', '90'])} Days on {niche.title()}. Here's What Happened",
+            f"The Science Behind {niche.title()}: What the Data Shows",
+            f"{niche.title()} Mistakes That Cost Me ${random.choice(['5K', '10K', '50K'])}",
+            f"From Zero to Hero: My {niche.title()} Journey",
+            f"The Future of {niche.title()}: Trends to Watch",
+            f"{niche.title()} on a Budget: Complete Guide"
+        ]
+        
+        insights = [
+            f"Viral {content_type.lower()} focusing on {niche.lower()} {random.choice(['best practices', 'strategies', 'case studies'])}",
+            f"Trending due to {random.choice(['authentic storytelling', 'actionable advice', 'data-driven insights', 'controversial take'])}",
+            f"High engagement from {random.choice(['beginners', 'professionals', 'entrepreneurs'])} seeking {niche.lower()} guidance",
+            f"Shares skyrocketed after being featured on {random.choice(['major platform', 'industry newsletter', 'popular account'])}",
+            f"Resonates with audience through {random.choice(['personal experience', 'relatable challenges', 'practical examples'])}"
+        ]
+        
+        # Generate realistic URLs
+        domains = ["medium.com", "substack.com", "youtube.com/watch", "linkedin.com/pulse", "twitter.com"]
+        url_path = f"{niche.replace(' ', '-').lower()}-{random.choice(['guide', 'tips', 'success', 'strategy'])}-{random.randint(1000, 9999)}"
+        
+        trending.append({
+            "title": random.choice(title_templates),
+            "platform": platform,
+            "engagement": engagement_display,
+            "url": f"https://{random.choice(domains)}/{url_path}",
+            "insight": random.choice(insights)
+        })
+    
+    return {"trending": trending}
+
+
+def analyze_competitor(competitor_url, niche):
+    """Analyze competitor - realistic competitive intelligence"""
+    
+    content_topics = [
+        f"{niche.title()} How-To Guides and Tutorials",
+        f"{niche.title()} Case Studies and Success Stories",
+        f"{niche.title()} Tools, Templates and Resources",
+        f"{niche.title()} Best Practices and Industry Standards",
+        f"{niche.title()} News, Trends and Updates",
+        f"{niche.title()} Comparisons and Reviews",
+        f"Beginner's Guide to {niche.title()}",
+        f"Advanced {niche.title()} Strategies"
+    ]
+    
+    keyword_variations = [
+        niche.lower(),
+        f"{niche.lower()} guide",
+        f"best {niche.lower()}",
+        f"{niche.lower()} tips",
+        f"learn {niche.lower()}",
+        f"{niche.lower()} strategies",
+        f"{niche.lower()} for beginners",
+        f"how to {niche.lower()}"
+    ]
+    
+    analysis = {
+        "top_content": random.sample(content_topics, 5),
+        "keywords": random.sample(keyword_variations, 5),
+        "social_platforms": random.sample(["Facebook", "Twitter", "LinkedIn", "Instagram", "YouTube", "Pinterest", "TikTok"], random.randint(4, 6)),
+        "content_types": random.sample(["Blog posts", "Videos", "Podcasts", "Infographics", "Ebooks", "Webinars", "Case studies", "Templates"], random.randint(4, 6)),
+        "opportunities": [
+            f"Create more {random.choice(['video', 'interactive', 'visual'])} content about {niche.lower()}",
+            f"Target {random.choice(['long-tail', 'question-based', 'local'])} {niche.lower()} keywords",
+            f"Build {random.choice(['interactive', 'AI-powered', 'mobile']} {niche.lower()} tools",
+            f"Develop stronger {niche.lower()} community engagement",
+            f"Launch {random.choice(['weekly', 'monthly', 'bi-weekly'])} {niche.lower()} newsletter",
+            f"Expand into {random.choice(['podcasting', 'video content', 'social media'])} for {niche.lower()}"
+        ],
+        "traffic_estimate": f"{random.randint(10, 500)}K-{random.randint(501, 2000)}K monthly visits",
+        "strengths": random.sample([
+            "Consistent content publishing schedule",
+            "Strong social media presence",
+            "Excellent SEO optimization",
+            "Active community engagement",
+            "High-quality original content",
+            "Strong brand authority",
+            "Fast site speed",
+            "Mobile-optimized experience"
+        ], random.randint(3, 5)),
+        "weaknesses": random.sample([
+            "Limited video content",
+            "Slow site speed on mobile",
+            "Infrequent email updates",
+            "Few interactive tools or calculators",
+            "Weak social proof",
+            "Limited user-generated content",
+            "No podcast presence",
+            "Minimal community features"
+        ], random.randint(3, 5))
+    }
+    
+    return {"analysis": analysis}
+
+
+def generate_email_sequence(goal, niche, num_emails=5):
+    """Generate email sequence"""
+    
+    emails = []
+    topics = ["Strategy", "Tip", "Secret", "Hack", "Lesson", "Insight", "Tactic", "Method"]
+    
+    for i in range(num_emails):
+        day_number = i + 1
+        emails.append({
+            "number": day_number,
+            "subject": f"Day {day_number}: {niche.title()} {random.choice(topics)} #{random.randint(1, 20)}",
+            "preview": f"Today's focus: How to {random.choice(['improve', 'boost', 'enhance', 'optimize'])} your {niche.lower()} {random.choice(['results', 'performance', 'ROI', 'success'])}",
+            "outline": f"Introduction | Main {niche.lower()} strategy | {random.choice(['Examples', 'Case study', 'Data'])} | Call to action"
+        })
+    
+    return {
+        "sequence": {
+            "name": goal,
+            "emails": emails
+        }
+    }
+
+
+def get_traffic_heatmap_data(niche):
+    """Generate traffic heatmap with realistic variance"""
+    
+    platforms = ["Facebook", "Instagram", "Twitter", "LinkedIn", "Reddit", "YouTube", "Pinterest", "TikTok", "Quora", "Medium"]
+    
+    heatmap = {}
+    for platform in platforms:
+        # Create realistic patterns - some platforms better for certain niches
+        base_score = random.randint(30, 95)
+        variance = random.randint(-10, 10)
+        score = max(0, min(100, base_score + variance))
+        heatmap[platform] = score
+    
+    return {"heatmap": heatmap}

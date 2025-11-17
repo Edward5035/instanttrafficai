@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Instant Traffic AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="ph-fill ph-rocket-launch"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Traffic AI</h1>
+                    </div>
+                </div>
+                <button class="close-sidebar" id="closeSidebar">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-category">
+                    <div class="category-label">
+                        <i class="ph ph-chart-line"></i>
+                        <span>DASHBOARD</span>
+                    </div>
+                    <a href="#" class="nav-item active" data-page="dashboard">
+                        <i class="ph ph-house"></i>
+                        <span class="text">Overview</span>
+                    </a>
+                </div>
+                
+                <div class="nav-category">
+                    <div class="category-label">
+                        <i class="ph ph-sparkle"></i>
+                        <span>GENERATE TRAFFIC</span>
+                    </div>
+                    <a href="#" class="nav-item" data-page="campaign">
+                        <i class="ph ph-target"></i>
+                        <span class="text">Campaign Generator</span>
+                        <span class="feature-badge">60s</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="leaks">
+                        <i class="ph ph-magnifying-glass"></i>
+                        <span class="text">Traffic Leak Finder</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="viral">
+                        <i class="ph ph-trend-up"></i>
+                        <span class="text">Viral Content Finder</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="email">
+                        <i class="ph ph-envelope-simple"></i>
+                        <span class="text">Email Sequences</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="calendar">
+                        <i class="ph ph-calendar-check"></i>
+                        <span class="text">Content Calendar</span>
+                    </a>
+                </div>
+                
+                <div class="nav-category">
+                    <div class="category-label">
+                        <i class="ph ph-chart-bar"></i>
+                        <span>ANALYZE & TRACK</span>
+                    </div>
+                    <a href="#" class="nav-item" data-page="heatmap">
+                        <i class="ph ph-fire"></i>
+                        <span class="text">Traffic Heatmap</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="competitors">
+                        <i class="ph ph-binoculars"></i>
+                        <span class="text">Competitor Tracker</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="library">
+                        <i class="ph ph-folder-open"></i>
+                        <span class="text">Content Library</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="tips">
+                        <i class="ph ph-lightbulb"></i>
+                        <span class="text">Pro Tips</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="ph ph-sign-out"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+        
+        <div class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="ph ph-list"></i>
+                </button>
+                <div class="topbar-center">
+                    <div class="topbar-breadcrumb">
+                        <i class="ph ph-house"></i>
+                        <span id="currentPageName">Dashboard</span>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <div class="profile-dropdown">
+                        <button class="profile-btn" id="profileBtn">
+                            <div class="profile-avatar">
+                                <i class="ph-fill ph-user-circle"></i>
+                            </div>
+                            <div class="profile-info">
+                                <span class="profile-name" id="profileName">User</span>
+                            </div>
+                            <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="profile-menu" id="profileMenu">
+                            <div class="profile-menu-header">
+                                <div class="profile-menu-avatar">
+                                    <i class="ph-fill ph-user-circle"></i>
+                                </div>
+                                <div class="profile-menu-info">
+                                    <strong id="profileMenuName">User</strong>
+                                    <span id="profileMenuUsername">@user</span>
+                                </div>
+                            </div>
+                            <div class="profile-menu-divider"></div>
+                            <a href="#" class="profile-menu-item" onclick="showSettings(event)">
+                                <i class="ph ph-gear"></i>
+                                <span>Account Settings</span>
+                            </a>
+                            <a href="#" class="profile-menu-item" onclick="showSettings(event)">
+                                <i class="ph ph-key"></i>
+                                <span>Change Password</span>
+                            </a>
+                            <a href="#" class="profile-menu-item">
+                                <i class="ph ph-question"></i>
+                                <span>Help & Support</span>
+                            </a>
+                            <div class="profile-menu-divider"></div>
+                            <a href="#" class="profile-menu-item logout-item" onclick="logout()">
+                                <i class="ph ph-sign-out"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <main class="content-area">
+                <div id="dashboardPage" class="page active">
+                    <div class="page-header">
+                        <div class="page-title-section">
+                            <h2 class="page-title">Welcome Back! 🚀</h2>
+                            <p class="page-subtitle">Your complete traffic generation command center</p>
+                        </div>
+                        <button class="btn-primary" onclick="document.querySelector('[data-page=campaign]').click()">
+                            <i class="ph ph-plus-circle"></i>
+                            Generate Campaign
+                        </button>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-content">
+                                <div class="stat-label">Active Campaigns</div>
+                                <div class="stat-value" id="statCampaigns">0</div>
+                                <div class="stat-trend">
+                                    <i class="ph ph-arrow-up"></i>
+                                    <span>Ready to generate</span>
+                                </div>
+                            </div>
+                            <div class="stat-icon stat-icon-1">
+                                <i class="ph-fill ph-target"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-content">
+                                <div class="stat-label">Traffic Sources</div>
+                                <div class="stat-value" id="statSources">0</div>
+                                <div class="stat-trend">
+                                    <i class="ph ph-arrow-up"></i>
+                                    <span>Opportunities found</span>
+                                </div>
+                            </div>
+                            <div class="stat-icon stat-icon-2">
+                                <i class="ph-fill ph-chart-line-up"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-content">
+                                <div class="stat-label">Total Clicks</div>
+                                <div class="stat-value" id="statClicks">0</div>
+                                <div class="stat-trend">
+                                    <i class="ph ph-arrow-up"></i>
+                                    <span>Growing daily</span>
+                                </div>
+                            </div>
+                            <div class="stat-icon stat-icon-3">
+                                <i class="ph-fill ph-cursor-click"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-content">
+                                <div class="stat-label">Conversion Rate</div>
+                                <div class="stat-value" id="statConversion">0%</div>
+                                <div class="stat-trend">
+                                    <i class="ph ph-arrow-up"></i>
+                                    <span>Optimized traffic</span>
+                                </div>
+                            </div>
+                            <div class="stat-icon stat-icon-4">
+                                <i class="ph-fill ph-trophy"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="card-header">
+                            <h3><i class="ph ph-clock-countdown"></i> Recent Campaigns</h3>
+                            <span class="card-badge">LIVE</span>
+                        </div>
+                        <div id="recentCampaigns" class="result-box"></div>
+                    </div>
+                </div>
+                
+                <div id="campaignPage" class="page">
+                    <div class="page-header">
+                        <div class="page-title-section">
+                            <h2 class="page-title"><i class="ph ph-target"></i> Campaign Generator</h2>
+                            <p class="page-subtitle">Generate complete campaigns in 60 seconds</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="value-props">
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>10 SEO-optimized blog post outlines</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>30 social media posts (FB, Twitter, LinkedIn)</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>5 complete email sequences</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>3 landing page variations</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>20 profitable keywords</span>
+                            </div>
+                        </div>
+                        
+                        <form id="campaignForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="ph ph-tag"></i> Your Niche</label>
+                                    <input type="text" id="campaignNiche" placeholder="e.g., fitness, marketing, cooking" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="ph ph-devices"></i> Target Platform</label>
+                                    <select id="campaignPlatform">
+                                        <option value="all">All Platforms</option>
+                                        <option value="Facebook">Facebook</option>
+                                        <option value="Instagram">Instagram</option>
+                                        <option value="YouTube">YouTube</option>
+                                        <option value="Twitter">Twitter</option>
+                                        <option value="Pinterest">Pinterest</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary btn-large">
+                                <i class="ph ph-sparkle"></i>
+                                Generate Complete Campaign in 60 Seconds
+                            </button>
+                        </form>
+                        
+                        <div id="campaignResult" class="result-box"></div>
+                    </div>
+                </div>
+                
+                <div id="leaksPage" class="page">
+                    <div class="page-header">
+                        <div class="page-title-section">
+                            <h2 class="page-title"><i class="ph ph-magnifying-glass"></i> Traffic Leak Finder</h2>
+                            <p class="page-subtitle">Discover where your competitors get traffic</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="value-props">
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>Forums & communities with engagement scores</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>Backlink sources & authority scores</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>Social platforms & best posting times</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>Guest post opportunities with templates</span>
+                            </div>
+                        </div>
+                        
+                        <form id="leaksForm">
+                            <div class="form-group">
+                                <label><i class="ph ph-tag"></i> Your Niche</label>
+                                <input type="text" id="leaksNiche" placeholder="e.g., fitness, marketing, cooking" required>
+                            </div>
+                            <button type="submit" class="btn-primary btn-large">
+                                <i class="ph ph-detective"></i>
+                                Find Traffic Leaks
+                            </button>
+                        </form>
+                        
+                        <div id="leaksResult" class="result-box"></div>
+                    </div>
+                </div>
+                
+                <div id="heatmapPage" class="page">
+                    <div class="page-header">
+                        <div class="page-title-section">
+                            <h2 class="page-title"><i class="ph ph-fire"></i> Traffic Heatmap</h2>
+                            <p class="page-subtitle">Visual map of traffic opportunities</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="heatmap-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #27AE60;"></div>
+                                <span>High Opportunity</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #FDC830;"></div>
+                                <span>Medium Opportunity</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #E74C3C;"></div>
+                                <span>Low Opportunity</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="loadHeatmap()" class="btn-primary">
+                            <i class="ph ph-arrows-clockwise"></i>
+                            Refresh Heatmap
+                        </button>
+                        
+                        <div id="heatmapResult" class="heatmap-container"></div>
+                    </div>
+                </div>
+                
+                <div id="viralPage" class="page">
+                    <div class="page-header">
+                        <div class="page-title-section">
+                            <h2 class="page-title"><i class="ph ph-trend-up"></i> Viral Content Finder</h2>
+                            <p class="page-subtitle">Find trending content to model</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <form id="viralForm">
+                            <div class="form-group">
+                                <label><i class="ph ph-tag"></i> Your Niche</label>
+                                <input type="text" id="viralNiche" placeholder="e.g., fitness, marketing, cooking" required>
+                            </div>
+                            <button type="submit" class="btn-primary btn-large">
+                                <i class="ph ph-fire"></i>
+                                Find Viral Content
+                            </button>
+                        </form>
+                        
+                        <div id="viralResult" class="result-box"></div>
+                    </div>
+                </div>
+                
+                <div id="emailPage" class="page">
+                    <div class="page-header">
+                        <div class="page-title-section">
+                            <h2 class="page-title"><i class="ph ph-envelope-simple"></i> Email Sequence Builder</h2>
+                            <p class="page-subtitle">Pre-written, high-converting sequences</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="value-props">
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>5-7 emails per sequence</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>Tested subject lines for high open rates</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>Multiple sequences: Lead Gen, Sales, Nurture, Webinar</span>
+                            </div>
+                        </div>
+                        
+                        <form id="emailForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="ph ph-bullseye"></i> Campaign Goal</label>
+                                    <input type="text" id="emailGoal" placeholder="e.g., product launch, newsletter" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="ph ph-hash"></i> Number of Emails</label>
+                                    <select id="emailCount">
+                                        <option value="3">3 Emails</option>
+                                        <option value="5" selected>5 Emails</option>
+                                        <option value="7">7 Emails</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary btn-large">
+                                <i class="ph ph-magic-wand"></i>
+                                Generate Email Sequence
+                            </button>
+                        </form>
+                        
+                        <div id="emailResult" class="result-box"></div>
+                    </div>
+                </div>
+                
+                <div id="calendarPage" class="page">
+                    <div class="page-header">
+                        <div class="page-title-section">
+                            <h2 class="page-title"><i class="ph ph-calendar-check"></i> Content Calendar</h2>
+                            <p class="page-subtitle">Organize your posting schedule</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <form id="calendarForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label><i class="ph ph-tag"></i> Content Niche</label>
+                                    <input type="text" id="calendarNiche" placeholder="e.g., fitness tips" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="ph ph-calendar"></i> Posts Per Week</label>
+                                    <select id="postsPerWeek">
+                                        <option value="3">3 posts/week</option>
+                                        <option value="5" selected>5 posts/week</option>
+                                        <option value="7">7 posts/week (Daily)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary btn-large">
+                                <i class="ph ph-calendar-plus"></i>
+                                Generate Calendar
+                            </button>
+                        </form>
+                        
+                        <div id="calendarResult" class="result-box"></div>
+                    </div>
+                </div>
+                
+                <div id="libraryPage" class="page">
+                    <div class="page-header">
+                        <div class="page-title-section">
+                            <h2 class="page-title"><i class="ph ph-folder-open"></i> Content Library</h2>
+                            <p class="page-subtitle">Your saved content, organized</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <button onclick="loadLibrary()" class="btn-primary">
+                            <i class="ph ph-arrows-clockwise"></i>
+                            Refresh Library
+                        </button>
+                        
+                        <div id="libraryResult" class="result-box">
+                            <div class="empty-state">
+                                <i class="ph ph-folder-open"></i>
+                                <p>No content saved yet.</p>
+                                <p class="empty-state-subtitle">Start creating campaigns to build your library!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="competitorsPage" class="page">
+                    <div class="page-header">
+                        <div class="page-title-section">
+                            <h2 class="page-title"><i class="ph ph-binoculars"></i> Competitor Tracker</h2>
+                            <p class="page-subtitle">Reverse-engineer competitor strategies</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="value-props">
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>Traffic source breakdown with percentages</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>Top performing content & topics</span>
+                            </div>
+                            <div class="value-prop-item">
+                                <i class="ph ph-check-circle"></i>
+                                <span>Posting frequency & engagement metrics</span>
+                            </div>
+                        </div>
+                        
+                        <form id="competitorForm">
+                            <div class="form-group">
+                                <label><i class="ph ph-user-focus"></i> Competitor Name or Niche</label>
+                                <input type="text" id="competitorName" placeholder="e.g., competitor name or niche" required>
+                            </div>
+                            <button type="submit" class="btn-primary btn-large">
+                                <i class="ph ph-detective"></i>
+                                Analyze Competitor
+                            </button>
+                        </form>
+                        
+                        <div id="competitorResult" class="result-box"></div>
+                    </div>
+                </div>
+                
+                <div id="tipsPage" class="page">
+                    <div class="page-header">
+                        <div class="page-title-section">
+                            <h2 class="page-title"><i class="ph ph-lightbulb"></i> Pro Tips & Best Practices</h2>
+                            <p class="page-subtitle">Proven strategies to maximize your traffic</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="ph ph-rocket-launch"></i></div>
+                            <h4>Consistency is Key</h4>
+                            <p>Post regularly on all your traffic sources. Daily content builds momentum and keeps your audience engaged.</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="ph ph-target"></i></div>
+                            <h4>Focus on Value</h4>
+                            <p>Always provide value first. Help your audience solve problems before asking for anything in return.</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="ph ph-chart-line"></i></div>
+                            <h4>Track Everything</h4>
+                            <p>Monitor your traffic sources, clicks, and conversions. What gets measured gets improved.</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="ph ph-chats-circle"></i></div>
+                            <h4>Engage Actively</h4>
+                            <p>Reply to comments, join discussions, and build relationships. Engagement multiplies your reach.</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="ph ph-arrows-clockwise"></i></div>
+                            <h4>Repurpose Content</h4>
+                            <p>Turn one piece of content into multiple formats: blog posts, videos, infographics, and social posts.</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="ph ph-clock"></i></div>
+                            <h4>Timing Matters</h4>
+                            <p>Post when your audience is most active. Test different times and track what works best.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
